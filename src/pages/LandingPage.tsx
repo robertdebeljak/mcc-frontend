@@ -158,7 +158,7 @@ const LandingPage = () => {
   const footer = (
     <Footer>
       <Box flex flexDirection="column" width="45px" align="center" marginRight={10}>
-        <img src="/img/logo.png" width={45} height={45} style={{ marginBottom: 4 }} alt="footer" />
+        <img src="/img/logo.png" width={40} height={60} style={{ marginBottom: 4 }} alt="footer" />
         <Text color="#999999" size={10}>
           Associate Member
         </Text>
