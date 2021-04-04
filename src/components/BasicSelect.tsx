@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
-interface InputProps {
-  icon?: boolean;
-}
-
-const BasicTextInput = styled.input<InputProps>((props) => `
+const BasicSelect = styled.select`
   box-shadow: 0px 0px 0px 1px #e7e7e9 inset;
   transition: border-color .08s ease-in, box-shadow .08s ease-in, color .08s ease-in;
   background-color: #fff;
@@ -12,7 +8,6 @@ const BasicTextInput = styled.input<InputProps>((props) => `
   border: 1px solid transparent;
   border-radius: 6px;
   padding: 0.75rem;
-  padding-left: ${props.icon ? "2rem" : "inherit"};
 
   &:focus {
     background-color: #fff;
@@ -20,6 +15,10 @@ const BasicTextInput = styled.input<InputProps>((props) => `
     box-shadow: 0 0 0 4px rgba(7, 16, 234, 0.1);
     z-index: 2;
   }
-`);
 
-export default BasicTextInput;
+  & option {
+    padding: 0.5rem;
+  }
+`;
+
+export default BasicSelect;

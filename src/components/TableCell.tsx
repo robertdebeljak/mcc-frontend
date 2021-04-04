@@ -9,7 +9,7 @@ export interface TableCellProps {
 }
 
 const CustomTableCell = styled.td<TableCellProps>`
-  padding: 8px;
+  padding: 10px;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
   text-align: ${({ align }) => align};
   width: ${({ width }) => width};

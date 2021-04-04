@@ -12,6 +12,7 @@ import TableToolbar from "../components/TableToolbar";
 import Text from "../components/Text";
 import { getCodeList } from "../services/coreService";
 import { useDebounce } from "../hooks/useDebounce";
+import * as colors from "../colors";
 
 interface ITableFilter {
   limit: number;
@@ -35,12 +36,18 @@ const Header = styled.div`
   flex-direction: column;
   overflow: hidden;
   border-radius: 5px;
-  box-shadow: 0 0 10px #aaaaaa;
+  box-shadow: 0 0 10px ${colors.darkGrey};
   background: linear-gradient(0deg, #eeeeee 0, white 20%);
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 
   & img {
     max-height: 140px;
+  }
+
+  @media screen and (max-width: 480px) {
+    & img {
+      max-height: 80px;
+    }
   }
 `;
 
@@ -49,12 +56,10 @@ const Body = styled(Text)`
 `;
 
 const Footer = styled.div`
-  background: linear-gradient(0deg,#eeeeee 0,white 100%);
-  box-shadow: 0 6px 6px #aaaaaa;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 20px 30px 20px 50px;
+  margin: 2rem 0;
 `;
 
 const LandingPage = () => {
@@ -76,7 +81,7 @@ const LandingPage = () => {
   const header = (
     <Header>
       <img src="/img/header-image.jpg" alt="header" />
-      <Text paddingLeft={170} size={18} color="#666666" weight="bold" lineHeight={45}>
+      <Text paddingLeft={120} size={18} color="#666666" weight="bold" lineHeight={45}>
         Overview
       </Text>
     </Header>
@@ -84,20 +89,26 @@ const LandingPage = () => {
 
   const content = (
     <Box>
-      <Text size={30} lineHeight={100}>
-        Mobile Country Codes (MCC) and Mobile Network Codes (MNC)
-      </Text>
+      <Box marginTop={50}>
+        <Text size={30} lineHeight={40}>
+          Mobile Country Codes (MCC) and Mobile Network Codes (MNC)
+        </Text>
+      </Box>
       <br/>
-      <Body lineHeight={30}>
-        Mobile Country Codes (MCC) are used in wireless telephone networks (GSM, CDMA, UMTS, etc.) in order to identify the country which a mobile subscriber belongs to. In order to uniquely identify a mobile subscribers network the MCC is combined with a Mobile Network Code (MNC). The combination of MCC and MNC is called HNI (Home network identify) and is the combination of both in one string (e.g. MCC=262 and MNC=01 results in an HNI of 26201). If you combine the HNI with the MSIN (Mobile Subscriber Identification Number) the result is the so called IMSI (integrated mobile subscriber identify). Below you can browse/search the list of countries and their MCCs for free in order to identify any MCC, MNC or HNI of the world.
-      </Body>
+      <Box paddingBottom={30}>
+        <Body lineHeight={30}>
+          Mobile Country Codes (MCC) are used in wireless telephone networks (GSM, CDMA, UMTS, etc.) in order to identify the country which a mobile subscriber belongs to. In order to uniquely identify a mobile subscribers network the MCC is combined with a Mobile Network Code (MNC). The combination of MCC and MNC is called HNI (Home network identify) and is the combination of both in one string (e.g. MCC=262 and MNC=01 results in an HNI of 26201). If you combine the HNI with the MSIN (Mobile Subscriber Identification Number) the result is the so called IMSI (integrated mobile subscriber identify). Below you can browse/search the list of countries and their MCCs for free in order to identify any MCC, MNC or HNI of the world.
+        </Body>
+      </Box>
       <br/>
-      <Body lineHeight={130}>
-        Mcc-mnc.com is a service by
-        <Text color="#fd9b1e">&nbsp;SMScarrier.EU&nbsp;</Text>
-        and powered by
-        <Text color="#fd9b1e">&nbsp;interactive digital media GmbH&nbsp;</Text>
-      </Body>
+      <Box paddingBottom={50}>
+        <Body lineHeight={30}>
+          Mcc-mnc.com is a service by
+          <Text color="#fd9b1e">&nbsp;SMScarrier.EU&nbsp;</Text>
+          and powered by
+          <Text color="#fd9b1e">&nbsp;interactive digital media GmbH&nbsp;</Text>
+        </Body>
+      </Box>
     </Box>
   );
 
@@ -130,12 +141,12 @@ const LandingPage = () => {
   );
 
   const table = (
-    <Box paddingBottom={50}>
+    <Box flex flexDirection="column" paddingBottom={50} marginTop={30}>
       <TableToolbar filter={filter} onFilterChange={setFilter} />
       <Table>
         {tableHead}
         {totalCount > 0 ? tableBody : (
-          <Text size={25} lineHeight={80}>
+          <Text size={25} lineHeight={80} color={colors.grey}>
             {isLoading ? "Loading..." : "There is no data exist."}
           </Text>
         )}
@@ -146,13 +157,13 @@ const LandingPage = () => {
 
   const footer = (
     <Footer>
-      <Box flex flexDirection="column" width="45px" align="center">
+      <Box flex flexDirection="column" width="45px" align="center" marginRight={10}>
         <img src="/img/logo.png" width={45} height={45} style={{ marginBottom: 4 }} alt="footer" />
         <Text color="#999999" size={10}>
           Associate Member
         </Text>
       </Box>
-      <Box>
+      <Box align="right">
         <Text color="#999999" size={12}>
           mcc-mnc.com | @ 2011-2013 by
         </Text>
