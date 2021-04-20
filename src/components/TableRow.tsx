@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 interface TableRowProps {
-  onClick?(): void;
+  onClick?(e?: any): void;
 }
 
 const CustomTableRow = styled.tr`

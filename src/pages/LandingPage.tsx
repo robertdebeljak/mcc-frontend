@@ -10,20 +10,25 @@ import TablePagination from "../components/TablePagination";
 import TableRow from "../components/TableRow";
 import TableToolbar from "../components/TableToolbar";
 import Text from "../components/Text";
-import { getCodeList } from "../services/coreService";
-import { useDebounce } from "../hooks/useDebounce";
+import {getCodeList} from "../services/coreService";
+import {useDebounce} from "../hooks/useDebounce";
 import * as colors from "../colors";
+import {SORT_ORDER} from "../interfaces";
 
 interface ITableFilter {
   limit: number;
   search: string;
   offset: number;
+  sortOrder: SORT_ORDER;
+  sortBy?: string;
 }
 
 const initialState = {
   limit: 10,
   search: "",
-  offset: 0
+  offset: 0,
+  sortOrder: SORT_ORDER.DESC,
+  sortBy: "mcc"
 };
 
 const PageWrapper = styled.div`
@@ -59,7 +64,7 @@ const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin: 2rem 0;
+  padding: 2rem 1rem 2rem 3rem;
 `;
 
 const LandingPage = () => {
@@ -78,9 +83,23 @@ const LandingPage = () => {
     });
   }, [debounceValue]);
 
+  useEffect(() => {
+    setFilter({...filter, sortOrder: SORT_ORDER.DESC});
+  }, [filter.sortBy]);
+
+  const handleSorting = (sortOrder: SORT_ORDER, field: string) => {
+    setFilter({...filter, sortOrder, sortBy: field});
+  };
+
+  const sortingProps = {
+    handleSorting,
+    sortBy: filter?.sortBy,
+    sortOrder: filter?.sortOrder
+  };
+
   const header = (
     <Header>
-      <img src="/img/header-image.jpg" alt="header" />
+      <img src="/resources/img/header-image.jpg" alt="header" />
       <Text paddingLeft={120} size={18} color="#666666" weight="bold" lineHeight={45}>
         Overview
       </Text>
@@ -97,16 +116,22 @@ const LandingPage = () => {
       <br/>
       <Box paddingBottom={30}>
         <Body lineHeight={30}>
-          Mobile Country Codes (MCC) are used in wireless telephone networks (GSM, CDMA, UMTS, etc.) in order to identify the country which a mobile subscriber belongs to. In order to uniquely identify a mobile subscribers network the MCC is combined with a Mobile Network Code (MNC). The combination of MCC and MNC is called HNI (Home network identify) and is the combination of both in one string (e.g. MCC=262 and MNC=01 results in an HNI of 26201). If you combine the HNI with the MSIN (Mobile Subscriber Identification Number) the result is the so called IMSI (integrated mobile subscriber identify). Below you can browse/search the list of countries and their MCCs for free in order to identify any MCC, MNC or HNI of the world.
+          IMSI-ranges.com is your solution to resolve an IMSI (integrated mobile subscriber identity) to a Mobile Network operator.
+          <dl>
+            <dt>How it works:</dt>
+            <dd>-	Mobile Country Codes (MCC) are used in wireless telephony networks (GSM, UMTS, CDMA etc.) to properly identify and associate a mobile subscriber to a country of origin.</dd>
+            <dd>-	Mobile Network Codes (MNC) are used in wireless telephony networks (GSM, UMTS, CDMA etc.) to properly identify and associate a mobile subscriber to a home network.</dd>
+          </dl>
+          The combination of the 2 above mentioned information in one string (MCC directly followed by the MNC) results in the so called Home Network Identity (HNI). (Example: MCC of 262 and MCN of 02 results in an HNI of 26202 = Vodafone Germany). In order to completely identify a specific subscriber, the HNI is combined with the MSIN (Mobile Subscriber Identification Number) and produces the so called IMSI (Integrated Mobile Subscriber Identity). In the table below you can search the complete global IMSI Range for free in order to identify any MCC, MNC or HNI of the world.
         </Body>
       </Box>
       <br/>
       <Box paddingBottom={50}>
         <Body lineHeight={30}>
-          Mcc-mnc.com is a service by
-          <Text color="#fd9b1e">&nbsp;SMScarrier.EU&nbsp;</Text>
-          and powered by
-          <Text color="#fd9b1e">&nbsp;interactive digital media GmbH&nbsp;</Text>
+          <Text color="#fd9b1e">www.imsi-ranges.com&nbsp;</Text>
+          is provided to you by
+          <Text color="#fd9b1e">&nbsp;www.anymessage.cloud&nbsp;</Text>
+          your cloud communication provider!
         </Body>
       </Box>
     </Box>
@@ -115,12 +140,24 @@ const LandingPage = () => {
   const tableHead = (
     <TableHead>
       <TableRow>
-        <TableCell>MCC</TableCell>
-        <TableCell>MNC</TableCell>
-        <TableCell>ISO</TableCell>
-        <TableCell>Country</TableCell>
-        <TableCell>Country Code</TableCell>
-        <TableCell>Network</TableCell>
+        <TableCell field="mcc" {...sortingProps}>
+          MCC
+        </TableCell>
+        <TableCell field="mnc" {...sortingProps}>
+          MNC
+        </TableCell>
+        <TableCell field="country.iso" {...sortingProps}>
+          ISO
+        </TableCell>
+        <TableCell field="country.name" {...sortingProps}>
+          Country
+        </TableCell>
+        <TableCell field="country.countryCode" {...sortingProps}>
+          Country Code
+        </TableCell>
+        <TableCell field="name" {...sortingProps}>
+          Network
+        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -157,15 +194,12 @@ const LandingPage = () => {
 
   const footer = (
     <Footer>
-      <Box flex flexDirection="column" width="45px" align="center" marginRight={10}>
-        <img src="/img/logo.png" width={40} height={60} style={{ marginBottom: 4 }} alt="footer" />
-        <Text color="#999999" size={10}>
-          Associate Member
-        </Text>
+      <Box flex flexDirection="column" align="center" marginRight={10}>
+        <img src="/resources/img/logo.png" width="auto" height={60} style={{ marginBottom: 4 }} alt="footer" />
       </Box>
       <Box align="right">
         <Text color="#999999" size={12}>
-          mcc-mnc.com | @ 2011-2013 by
+          mcc-mnc.com | @ 2011-2013 by&nbsp;
         </Text>
         <Text color="#666666" size={12}>
           interactive digital media GmbH
