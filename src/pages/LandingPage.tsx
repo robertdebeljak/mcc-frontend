@@ -140,22 +140,22 @@ const LandingPage = () => {
   const tableHead = (
     <TableHead>
       <TableRow>
-        <TableCell field="mcc" {...sortingProps}>
+        <TableCell width="10%" field="mcc" {...sortingProps}>
           MCC
         </TableCell>
-        <TableCell field="mnc" {...sortingProps}>
+        <TableCell width="10%" field="mnc" {...sortingProps}>
           MNC
         </TableCell>
-        <TableCell field="country.iso" {...sortingProps}>
+        <TableCell width="10%" field="country.iso" {...sortingProps}>
           ISO
         </TableCell>
-        <TableCell field="country.name" {...sortingProps}>
+        <TableCell width="15%" field="country.name" {...sortingProps}>
           Country
         </TableCell>
-        <TableCell field="country.countryCode" {...sortingProps}>
+        <TableCell width="10%" field="country.countryCode" {...sortingProps}>
           Country Code
         </TableCell>
-        <TableCell field="name" {...sortingProps}>
+        <TableCell width="45%" field="name" {...sortingProps}>
           Network
         </TableCell>
       </TableRow>
@@ -165,13 +165,13 @@ const LandingPage = () => {
   const tableBody = (
     <TableBody>
       {data !== undefined && data.map((rowData: any, index: number) => (
-        <TableRow key={index}>
-          <TableCell>{rowData.mcc ? rowData.mcc : 0}</TableCell>
-          <TableCell>{rowData.mnc ? rowData.mnc : 0}</TableCell>
-          <TableCell>{(rowData.country && rowData.country.iso) ? rowData.country.iso : ""}</TableCell>
-          <TableCell>{(rowData.country && rowData.country.name) ? rowData.country.name : ""}</TableCell>
-          <TableCell>{(rowData.country && rowData.country.countryCode) ? rowData.country.countryCode: ""}</TableCell>
-          <TableCell>{rowData.name ? rowData.name : ""}</TableCell>
+        <TableRow key={index} height="55">
+          <TableCell width="10%">{rowData.mcc ? rowData.mcc : 0}</TableCell>
+          <TableCell width="10%">{rowData.mnc ? rowData.mnc : 0}</TableCell>
+          <TableCell width="10%">{(rowData.country && rowData.country.iso) ? rowData.country.iso : ""}</TableCell>
+          <TableCell width="15%">{(rowData.country && rowData.country.name) ? rowData.country.name : ""}</TableCell>
+          <TableCell width="10%">{(rowData.country && rowData.country.countryCode) ? rowData.country.countryCode: ""}</TableCell>
+          <TableCell width="45%">{rowData.name ? rowData.name : ""}</TableCell>
         </TableRow>
       ))}
     </TableBody>
